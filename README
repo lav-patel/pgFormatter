@@ -1,10 +1,10 @@
 NAME
-    pg_format - PostgreSQL SQL syntax beautifier
+pg_format - PostgreSQL SQL syntax beautifier
 
 DESCRIPTION
-    This SQL formatter/beautifier supports keywords from SQL-92, SQL-99,
-    SQL-2003, SQL-2008, SQL-2011 and PostgreSQL specifics keywords. Works
-    with any other databases too.
+This SQL formatter/beautifier supports keywords from SQL-92, SQL-99,
+SQL-2003, SQL-2008, SQL-2011 and PostgreSQL specifics keywords. Works
+with any other databases too.
 
     pgFormatter can work as a console program or as a CGI. It will
     automatically detect its environment and format output as text or as
@@ -12,8 +12,8 @@ DESCRIPTION
 
     Keywords highlighting will only be available in CGI context.
 
-  Terminal/console execution
-    Usage: pg_format [options] file.sql
+Terminal/console execution
+Usage: pg_format [options] file.sql
 
         PostgreSQL SQL queries and PL/PGSQL code beautifier.
 
@@ -79,12 +79,12 @@ DESCRIPTION
         pg_format -n samples/ex1.sql
         pg_format -f 2 -n -o result.sql samples/ex1.sql
 
-  CGI context
-    Install pg_format into your cgi-bin folder, grant execution on it as a
-    CGI script (maybe you should add the .cgi extension) and get it from
-    your favorite browser. Copy files logo_pgformatter.png and
-    icon_pgformatter.ico in the CGI directory, pg_format.cgi look for them
-    in the same repository.
+CGI context
+Install pg_format into your cgi-bin folder, grant execution on it as a
+CGI script (maybe you should add the .cgi extension) and get it from
+your favorite browser. Copy files logo_pgformatter.png and
+icon_pgformatter.ico in the CGI directory, pg_format.cgi look for them
+in the same repository.
 
     You have a live example without limitation than ten thousand characters
     in your SQL query here:
@@ -104,12 +104,14 @@ DESCRIPTION
     following your distribution.
 
 INSTALLATION
-    Download the tarball from github and unpack the archive as follow:
 
-            tar xzf pgFormatter-x.x.tar.gz
-            cd pgFormatter-x.x/
+            version=5.3 #please use the latest release version from github
+            wget https://github.com/darold/pgFormatter/archive/refs/tags/v${version}.tar.gz
+            tar xzf v${version}.tar.gz
+            cd pgFormatter-${version}/
             perl Makefile.PL
             make && sudo make install
+            cd ../ && rm -rf v${version}.tar.gz && rm -rf pgFormatter-${version}
 
     This will copy the Perl script pg_format in /usr/local/bin/pg_format
     directory by default and the man page into
@@ -140,10 +142,10 @@ INSTALLATION
             cat file.sql | docker run --rm -a stdin -a stdout -i darold.net/pgformatter -
 
 SPECIAL FORMATTING
-  Option -W, --wrap-after
-    This option can be used to set number of column after which lists must
-    be wrapped. By default pgFormatter puts every item on its own line. This
-    format applies to SELECT and FROM list. For example the following query:
+Option -W, --wrap-after
+This option can be used to set number of column after which lists must
+be wrapped. By default pgFormatter puts every item on its own line. This
+format applies to SELECT and FROM list. For example the following query:
 
         SELECT a, b, c, d FROM t_1, t_2, t3 WHERE a = 10 AND b = 10;
 
@@ -156,20 +158,20 @@ SPECIAL FORMATTING
 
     Note this formatting doesn't fits well with sub queries in list.
 
-  Option -w, --wrap-limit
-    This option wraps queries at a certain length whatever is the part of
-    the query at the limit unless it is a comment. For example if the limit
-    is reach in a text constant the text will be wrapped. Indentation is not
-    included in the character count. This option is applied in all cases
-    even if other options are used.
+Option -w, --wrap-limit
+This option wraps queries at a certain length whatever is the part of
+the query at the limit unless it is a comment. For example if the limit
+is reach in a text constant the text will be wrapped. Indentation is not
+included in the character count. This option is applied in all cases
+even if other options are used.
 
-  Option -C, --wrap-comment
-    This option wraps comments at the length defined by -w, --wrap-limit
-    whatever is the part of the comment. Indentation is not included in the
-    character count.
+Option -C, --wrap-comment
+This option wraps comments at the length defined by -w, --wrap-limit
+whatever is the part of the comment. Indentation is not included in the
+character count.
 
-  Option -t, --format-type
-    This option activate an alternative formatting that adds:
+Option -t, --format-type
+This option activate an alternative formatting that adds:
 
       * newline in procedure/function parameter list
       * new line in PUBLICATION and POLICY DDL
@@ -177,9 +179,9 @@ SPECIAL FORMATTING
 
     Expect this list grow following alternative thoughts.
 
-  Option -g, --no-grouping
-    By default pgFormatter groups all statements when they are in a
-    transaction:
+Option -g, --no-grouping
+By default pgFormatter groups all statements when they are in a
+transaction:
 
         BEGIN;
         INSERT INTO foo VALUES (1, 'text 1');
@@ -201,26 +203,26 @@ SPECIAL FORMATTING
 
     This might add readability to not DML transactions.
 
-  Option -L, --no-extra-line
-    By default pgFormatter always adds an empty line after the end of a
-    statement when it is terminated by a ; except in a plpgsql code block.
-    If the extra empty line at end of the output is useless, you can remove
-    it by adding this option to the command line.
+Option -L, --no-extra-line
+By default pgFormatter always adds an empty line after the end of a
+statement when it is terminated by a ; except in a plpgsql code block.
+If the extra empty line at end of the output is useless, you can remove
+it by adding this option to the command line.
 
-  Option --extra-function
-    pgFormatter applies some formatting to the PostgreSQL internal functions
-    call but it can not detect user defined function. It is possible to
-    defined a list of functions into a file (one function name per line) and
-    give it to pgFormatter through the --extra-function option that will be
-    formatter as PostgreSQL internal functions.
+Option --extra-function
+pgFormatter applies some formatting to the PostgreSQL internal functions
+call but it can not detect user defined function. It is possible to
+defined a list of functions into a file (one function name per line) and
+give it to pgFormatter through the --extra-function option that will be
+formatter as PostgreSQL internal functions.
 
 HINTS
-  Configuration
-    If the default settings of pg_format doesn't fit all your needs you can
-    customize the behavior of pg_format by using a configuration file
-    instead of repeating the command line option. By default pgFormatter
-    look for file ~/.pg_format but you can choose an alternate configuration
-    file using command line option -c | --config
+Configuration
+If the default settings of pg_format doesn't fit all your needs you can
+customize the behavior of pg_format by using a configuration file
+instead of repeating the command line option. By default pgFormatter
+look for file ~/.pg_format but you can choose an alternate configuration
+file using command line option -c | --config
 
     To customize the CGI pg_format.cgi look for a configuration file named
     pg_format.conf in the same directory as the CGI script.
@@ -230,9 +232,9 @@ HINTS
     To prevent pg_format to look at ~/.pg_format file you can use the
     command line option -X | --no-rcfile
 
-  Formatting from stdin
-    You can execute pg_format without any argument or - to give the SQL code
-    to format through stdin.
+Formatting from stdin
+You can execute pg_format without any argument or - to give the SQL code
+to format through stdin.
 
     If you use the interactive mode you have to type `ctrl+d` after typing
     your SQL statement to format to end the typing.
@@ -245,9 +247,9 @@ HINTS
 
             echo "select * from customers;" | pg_format
 
-  Formatting from VI
-    With pgFormatter, you can just add the following line to your ~/.vimrc
-    file:
+Formatting from VI
+With pgFormatter, you can just add the following line to your ~/.vimrc
+file:
 
             au FileType sql setl formatprg=/usr/local/bin/pg_format\ -
 
@@ -268,9 +270,9 @@ HINTS
     types that support pg_format to format SQL file type. Thanks to Anders
     Riutta for the patch to (Neo)vim.
 
-  Formatting from Atom
-    If you use atom as your favorite editor you can install the pg-formatter
-    package which is a Node.js wrapper of pgFormatter.
+Formatting from Atom
+If you use atom as your favorite editor you can install the pg-formatter
+package which is a Node.js wrapper of pgFormatter.
 
     Features:
 
@@ -301,18 +303,18 @@ HINTS
 
     Thanks to Alex Fedoseev for the atom package.
 
-  Formatting from Visual Studio
-    Thanks to Brady Holt a Visual Studio Code extension is available to
-    formats PostgresSQL SQL using pgFormatter.
+Formatting from Visual Studio
+Thanks to Brady Holt a Visual Studio Code extension is available to
+formats PostgresSQL SQL using pgFormatter.
 
             https://marketplace.visualstudio.com/items?itemName=bradymholt.pgformatter
 
     For installation and use have a look at URL above.
 
-  Prevent replacing code snippets
-    Using -p or --placeholder command line option it is possible to keep
-    code untouched by pgFormatter in your SQL queries. For example, in query
-    like:
+Prevent replacing code snippets
+Using -p or --placeholder command line option it is possible to keep
+code untouched by pgFormatter in your SQL queries. For example, in query
+like:
 
             SELECT * FROM projects WHERE projectnumber
                     IN <<internalprojects>> AND username = <<loginname>>;
@@ -335,38 +337,37 @@ HINTS
 
     will wrap the queries and the comments, but not the urls.
 
-  Prevent dynamic code formatting
-    By default pgFormatter takes all code between single quote as string
-    constant and do not perform any formatting on this code. It is common to
-    use a string as code separator to avoid doubling single quote in dynamic
-    code generation, in this case pgFormatter can fail to auto detect the
-    code separator. By default it will search for any string after the
-    EXECUTE keyword starting with dollar sign. If it can not auto detect
-    your code separator you can use the command line option -S or
-    --separator to set the code separator that must be used.
+Prevent dynamic code formatting
+By default pgFormatter takes all code between single quote as string
+constant and do not perform any formatting on this code. It is common to
+use a string as code separator to avoid doubling single quote in dynamic
+code generation, in this case pgFormatter can fail to auto detect the
+code separator. By default it will search for any string after the
+EXECUTE keyword starting with dollar sign. If it can not auto detect
+your code separator you can use the command line option -S or
+--separator to set the code separator that must be used.
 
-  Node.js thin-wrapper
-    Gajus Kuizinas has written a Node.js wrapper for executing pgFormatter.
-    You can find it at https://github.com/gajus/pg-formatter
+Node.js thin-wrapper
+Gajus Kuizinas has written a Node.js wrapper for executing pgFormatter.
+You can find it at https://github.com/gajus/pg-formatter
 
-  Customize CSS for the CGI output
-    You can change the HTML style rendered through the default CSS style by
-    creating a file named custom_css_file.css into the pgFormatter CGI
-    script directory. The default CSS will be fully overridden by this
-    custom file content. You have to look at the generated HTML output to
-    get the default CSS code used.
+Customize CSS for the CGI output
+You can change the HTML style rendered through the default CSS style by
+creating a file named custom_css_file.css into the pgFormatter CGI
+script directory. The default CSS will be fully overridden by this
+custom file content. You have to look at the generated HTML output to
+get the default CSS code used.
 
 AUTHORS
-    pgFormatter is an original work from Gilles Darold with major code
-    refactoring by Hubert depesz Lubaczewski.
+pgFormatter is an original work from Gilles Darold with major code
+refactoring by Hubert depesz Lubaczewski.
 
 COPYRIGHT
-    Copyright 2012-2020 Gilles Darold. All rights reserved.
+Copyright 2012-2020 Gilles Darold. All rights reserved.
 
 LICENSE
-    pgFormatter is free software distributed under the PostgreSQL Licence.
+pgFormatter is free software distributed under the PostgreSQL Licence.
 
     A modified version of the SQL::Beautify Perl Module is embedded in
     pgFormatter with copyright (C) 2009 by Jonas Kramer and is published
     under the terms of the Artistic License 2.0.
-
